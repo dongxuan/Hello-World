@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>novcat by dongxuan</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>novcat</h1>
+          <h2></h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/dongxuan/Hello-World/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/dongxuan/Hello-World/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/dongxuan/Hello-World" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h2>
+<a name="scheme--v01" class="anchor" href="#scheme--v01"><span class="octicon octicon-link"></span></a>Scheme 学习笔记 v0.1</h2>
+
+<ul>
+<li>7/16/2013  更新第一版</li>
+</ul><hr><ul>
+<li>   <strong>注释</strong>：
+
+<ul>
+<li>   单行注释： ; XXXXXXXXX    ;; XXXX 会输出到Doxygen的文档中  #！也可以注释 </li>
+<li>   多行注释： #| XXXXXXXXX |#（sx中 )　（scheme中是 #！ ！#）</li>
+</ul>
+</li>
+<li><p><strong>语言块</strong>：  （XXX）  用小括号括起来.当然也可以使用[ ] 或者 {} 来替换小括号，但注意匹配。</p></li>
+<li>
+<p><strong>变量</strong>：</p>
+
+<ul>
+<li>   变量定义：    (#define  x  10) </li>
+<li>   变量赋值：    (set! x 100) </li>
+<li>
+<p>变量没有类型： </p>
+
+<ul>
+<li>   boolean型：  #t 和 #f 。 操作符: not 对于非boolean型的变量， (not  xxxx)  永远返回 #f ， 换句话说，XXXX永远被当做#t</li>
+<li>   number型：分为四种 
+
+<ul>
+<li>   整型  （#define  x 10） </li>
+<li>   浮点数 (#define x 10.77777) </li>
+<li>   复数 (#define x 2+10i) </li>
+<li>   分数 (#define x  222/7 )<br>
+&gt;    <strong>进制表示： #b(二进制)  #o（八进制）  #d（十进制，可忽略） #x（十六进制） 如： #b1010</strong>
+&gt;    number? 可用来判定变量是否为number类型</li>
+</ul>
+</li>
+<li>
+<p>char型： Scheme 中的字符都以#\开头 . 一般分为2类：
+1.普通字符： #\c =&gt; 字母c  ， #\A =&gt; A
+2.特殊字符： 所谓特殊字符就是无法可视化的表现出来的字符，需要用一个英文单词来描述。如果空格（#\space），换行（#\newline），tab（#\tab)</p>
+
+<pre><code>&gt;    另外，字符也可以使用ascii码来表示，#\NN, NN代表其ascii码，如#\x20(16进制)表示#\space
+</code></pre>
+
+<ul>
+<li>   字符的操作：
+  <code>
+    (define c #\c)  ; 定义
+    (char?  c)  =&gt; #t  ;  判定是否是字符
+    ; 比较大小    
+    (char=? #\a #\a)  =&gt; #t
+    (char&lt;? #\a #\b)  =&gt; #t
+    (char&gt;=? #\a #\b) =&gt; #f
+    ；忽略大小写比较大小                    
+(char-ci=? #\a #\A) =&gt; #t
+(char-ci&lt;? #\a #\B) =&gt; #t
+    ; 大小写转换
+(char-downcase #\A) =&gt; #\a
+(char-upcase #\a)   =&gt; #\A</code>
+</li>
+</ul>
+</li>
+<li>
+<p>symbol型： 上述类型都属于自求值类型，所谓自求值类型是当你引用它时候，它返回的是自身的值。简单理解就是你在控制台输入某个变量，控制台会返回相应的值。
+而symbol型只是一种标识符，通常用来做枚举。</p>
+
+<ul>
+<li>   以'开头的  'xy =&gt; xy</li>
+<li>   以quote开头的 （两者等价，表示引用过的部分不计算)   （quote xy)  =&gt; xy</li>
+<li>
+<p>symbol类型的操作：</p>
+
+<pre><code>    (symbol? 'xyz)  =&gt; #t ；判定是否是symbol类型
+    (eqv? 'AAA 'aaa)  =&gt; #f  ; 比较
+    (string-&gt;symbol "aaa") =&gt; aaa ; string转符号 
+    ; symbol类型做枚举的例子
+    (define (my-fun type)
+           (case  type
+                ((create
+                    ; do something
+              )    
+     (my-fun ‘create)    ``` 
+
+     &gt;    symbol是区分大小写的
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>复合类型： </p>
+
+<ul>
+<li>   string: 相关操作(字符串出现引号要用反斜杠转义） 
+
+<ul>
+<li>   (string-length x) </li>
+<li>   (string-set!  x index #\p)  更改x index处的字符为p </li>
+<li>   (string-ref  x  3)  获取x下标为3的字符索引 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>pair：点对 
+    *    使用 cons来定义：(define x (cons 1 2)) 
+    *    第一个元素称为car，第二个元素称为cdr 
+    *    (car x)   (cdr x) 
+    *    (set-car! x 2)  (set-cdr! x 5) 更改元素</p></li>
+<li><p>list：列表 
+    *    (define x (list 1 2 3 4)) 
+    *    (define x (make-list 5 6)   x为5个6的列表 
+    *    (list-ref x 5) 取列表第五项 
+    *    (list-set! x 5 1) 设置列表第五项 
+    *    list的本质就是pair，可以使用car,cdr等操作</p></li>
+<li><p>vector : 向量。和列表很像，但是比列表更节省空间 
+    *    (define x (vector 1 2 3 4))  或者  ( define x #(1 2 3 4) ) 
+    *    vector-ref  vector-set! vector-length 和 list一样</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>比较</strong></p>
+
+<ul>
+<li>eq?    表示两个参数指向同一对象 </li>
+<li>eqv?  和eq? 相同 </li>
+<li>equals?  两个对象具有相同的数据结构并且内容相同</li>
+</ul>
+</li>
+<li>
+<p><strong>数学运算</strong></p>
+
+<ul>
+<li>   max, min, abs, expt （乘方）</li>
+</ul>
+<pre><code>(max 1 3 4 5)  =&gt; 5
+(min 1 2 4 3)  =&gt; 1
+(abs -1) =&gt; 1
+</code></pre>
+</li>
+<li>
+<p><strong>自定义操作符（函数）</strong></p>
+
+<ul>
+<li>   (define fun  (lambda ( arg1 arg2 ...)  process ) ) </li>
+<li>   简化版 (define (fun (arg1 arg2)  process)) </li>
+<li>   procedure?  判断是否为过程</li>
+</ul>
+</li>
+<li>
+<p><strong>流程控制</strong></p>
+
+<ul>
+<li>   (begin  xxxxx )  语句块 </li>
+<li>   (if  cond  xxxx  xxxx2)</li>
+</ul>
+</li>
+<li>
+<p><strong>let相关用法</strong>：
+define定义的变量是全局的，使用let可以定义局部的变量：</p>
+
+<pre><code>(let 
+    (
+        (x  1)
+        (y  1)    ; 定义的局部变量
+    )
+    (.....)    ; 中间的过程
+ )
+</code></pre>
+</li>
+<li>
+<p><strong>object</strong></p>
+
+<ul>
+<li>   定义一个类有两种方式：
+
+<ul>
+<li>   不继承：(define (opt) (object body)) </li>
+<li>   继承： (define (opt) (inherit parent-class body))
+&gt;    换句话说，使用 object 运算或者 inherit运算可以产生一个新对象。</li>
+</ul>
+</li>
+<li>   body中的成员： 
+
+<ul>
+<li>   （private member-variable value） 定义私有成员变量 </li>
+<li>   （private (method arg-list)） 定义私有成员函数 </li>
+<li>   （public member-variable value） 定义公有成员变量 </li>
+<li>   （public (method arg-list)） 定义公有成员函数 </li>
+<li>   （public/mutable member-variable value）表示该成员可以被覆盖 </li>
+<li>   （public/mutable (method arg-list)） 表示该成员函数可以被覆盖 </li>
+<li>   （public/override member-variable value）inherit中使用，表示该成员可被覆盖 </li>
+<li>   （public/override (method arg-list)） inherit中使用表示该成员函数被覆盖</li>
+<li>   this代表object本身，是一个特殊的符号。 </li>
+</ul>
+</li>
+<li>   构造对象，直接调用 object 或者 inherit 即可。 </li>
+<li>   对象方法的调用： 
+
+<ul>
+<li>   （send x method arg-list）调用本类的方法 </li>
+<li>   （send/super x method arg-list) 调用父类的方法</li>
+</ul>
+</li>
+<li>   对象成员的获取与修改： 
+
+<ul>
+<li>   （get x variable）=&gt; 获取 </li>
+<li>   (object-set! object member value) =&gt; 修改</li>
+</ul>
+</li>
+<li>   inspect函数：修改类的成员却不产生新类（相当于匿名类）。使用方法： (inspect object statements ) → object 
+&gt;    statements是用（）扩起来的一段语句，可以在这里重新定义覆盖object里的方法。</li>
+<li>   object-members 返回所有public函数的列表。 (object-members object) → list </li>
+<li>   delete : 删除对象： 
+
+<ul>
+<li>   (object-delete! object ) 外部删除 </li>
+<li>   (object-delete! ) 内部删除</li>
+</ul>
+</li>
+<li>   对象的引用： 
+
+<ul>
+<li>   平常的使用对象称之为强引用，如果你的引用符号存在，对象就一直存在。 </li>
+<li>   使用weak返回对象的弱引用，对对象不再持有。 
+
+<ul>
+<li>   (weak object ) =&gt; 返回object的弱引用。 </li>
+<li>   (weak object function ) =&gt; function是一个回调函数，当object被销毁的时候function会被调用。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+        </section>
+
+        <footer>
+          novcat is maintained by <a href="https://github.com/dongxuan">dongxuan</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
